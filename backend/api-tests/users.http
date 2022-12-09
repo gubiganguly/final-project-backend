@@ -1,0 +1,72 @@
+
+### Find all users
+GET http://localhost:4000/api/users
+
+### Find user by ID
+GET http://localhost:4000/api/users/123
+
+### Create user
+POST http://localhost:4000/api/users/ 
+Content-Type: application/json
+
+  {
+    "type": "PERSON",
+    "firstName": "Tubi",
+    "lastName": "Ganguly",
+    "position": "Student at Okemos High School",
+    "city": "Okemos",
+    "state": "MI",
+    "country": "United States",
+    "hasProfileImage": true,
+    "image": "/images/profile.jpeg",
+    "connectionCount": 121,
+    "coins": 120,
+    "about": "I am das Tubs!!",
+    "experience": [
+      {
+        "_id": 1,
+        "workplace": "BPA",
+        "image": "/images/cognitivescale.png",
+        "employmentType": "Intern",
+        "title": "Engineering Intern",
+        "startDate": "2019-05-01",
+        "endDate": "2019-08-01",
+        "city": "Austin",
+        "state": "TX",
+        "country": "United States",
+        "detail": "CognitiveScale is an AI based startup which focuses on building AI platforms and ethical AI tools. At CognitiveScale I worked on developing healthcare based products using CognitiveScale’s ethical AI technology. The internship was setup in a shark tank based format where we got split into teams and were given an industry to build products for. My team included a PHD level machine learning specialist, marketing specialist, software engineer (me), and a Healthcare specialist. We worked together to build a website backed by CognitiveScale's ethical ai software, and machine learning models using real healthcare data from the state of Delaware. Our team won the Audience award in the final competition.",
+        "current": false
+      }
+    ],
+    "education": [
+      {
+        "school": "Okemos Highschool",
+        "primary": false,
+        "degree": "High School Diploma",
+        "startDate": "08-29-2014",
+        "endDate": "05-1-2018",
+        "major": "",
+        "image": "/images/okemos.png",
+        "clubs": [
+          "Investment Club",
+          "Debate Club"
+        ]
+      }
+    ],
+    "skills": [
+      "Leadership",
+      "Math",
+      "Debate"
+    ]
+  }
+
+### Delete user by id 
+DELETE http://localhost:4000/api/users/123
+
+### Update user
+PUT http://localhost:4000/api/users/123
+Content-Type: application/json
+
+{
+    "firstName": "Dev"
+}
