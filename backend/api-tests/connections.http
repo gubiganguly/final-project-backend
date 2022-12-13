@@ -1,0 +1,14 @@
+### Get all connections
+GET http://localhost:4000/api/connections
+
+### Create connection
+POST http://localhost:4000/api/users/222/follows/333
+
+### Delete connection
+DELETE  http://localhost:4000/api/users/222/unfollows/333
+
+### Get all people user follows
+GET http://localhost:4000/api/users/222/follows
+
+### Get all followers of user
+GET http://localhost:4000/api/users/222/followers
