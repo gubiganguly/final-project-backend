@@ -9,6 +9,13 @@ const findPosts = async (req, res) => {
     res.json(posts);
 }
 
+// Find post by author
+const findPostByAuthor = async (req, res) => {
+    const author = req.params.author
+    const posts = await postsDao.findPostByAuthor(author)
+    res.json(posts);
+}
+
 // Create a post
 const createPost = async (req, res) => {
     const newPost = req.body;
@@ -39,6 +46,7 @@ const deletePost = (req, res) => {
 // Routes
 export default (app) => {
     app.get('/api/posts', findPosts);
+    app.get('/api/posts/:author', findPostByAuthor);
     app.post('/api/posts', createPost);
     app.put('/api/posts/:pid', updatePost);
     app.delete('/api/posts/:pid', deletePost);

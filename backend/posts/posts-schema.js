@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
 
 const postSchema = mongoose.Schema({
-    name: String,
+    firstName: String,
+    lastName: String,
+    author: {type: mongoose.Schema.Types.ObjectId, ref: 'UserModel'},
     position: String,
     caption: String,
     isImage: Boolean,

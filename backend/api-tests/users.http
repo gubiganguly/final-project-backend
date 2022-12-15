@@ -3,7 +3,7 @@
 GET http://localhost:4000/api/users
 
 ### Find user by ID
-GET http://localhost:4000/api/users/123
+GET http://localhost:4000/api/users/6398297665cd518863ae419c
 
 ### Create user
 POST http://localhost:4000/api/users/ 
@@ -69,4 +69,43 @@ Content-Type: application/json
 
 {
     "firstName": "Dev"
+}
+
+
+### Register user
+POST http://localhost:4000/register
+Content-Type: application/json
+
+{
+  "firstName": "jon",
+  "lastNmae": "doe",
+  "email": "doe.j@gmail.com",
+  "password": "1234"
+}
+
+
+### Get profile
+POST http://localhost:4000/profile
+
+### Update current user
+
+PUT http://localhost:4000/update
+Content-Type: application/json
+
+{
+  "firstName": "bob"
+}
+
+### Find user by name
+GET http://localhost:4000/api/users/name/Aayu
+
+### Find user by id
+GET http://localhost:4000/api/users/6398c1f865cd518863ae4220
+
+### Update connection count
+PUT http://localhost:4000/api/users/6398297665cd518863ae419c
+Content-Type: application/json
+
+{
+  "connectionCount": 2
 }

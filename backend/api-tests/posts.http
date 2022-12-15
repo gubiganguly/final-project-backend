@@ -19,3 +19,7 @@ Content-Type: application/json
 
 ### Delete a post
 DELETE  http://localhost:4000/api/posts/125
+
+
+### Get post by author post
+GET  http://localhost:4000/api/posts/6398c1f865cd518863ae4220

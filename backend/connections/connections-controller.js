@@ -1,27 +1,28 @@
 import connectionList from "./connections.js"
+import * as connectionsDao from './connections-dao.js'
 let connections = connectionList
 
-const createConnection = (req, res) => {
+const createConnection = async (req, res) => {
     const uidA = req.params.uidA
     const uidB = req.params.uidB
-    const connection = {
-        _id: (new Date()).getTime(),
-        userA: uidA,
-        userB: uidB
-    }
-    connections.push(connection)
-    res.json(connection)
+    const newConnection = await connectionsDao.createConnection(uidA, uidB)
+    res.json(newConnection)
 }
 
-const userUnfollowsUser = (req, res) => {
+const userUnfollowsUser = async (req, res) => {
     const uidA = req.params.uidA
     const uidB = req.params.uidB
-    connections = connections.filter((c) => c.userA !== uidA && c.userB !== uidB)
-    res.send(200)
+    const status = await connectionsDao.userUnfollowsUser(uidA, uidB)
+    res.send(status)
 }
 
 const findAllConnections = (req, res) => {
+    const connections = connectionsDao.findAllConnections()
     res.json(connections)
+}
+
+const findAllConnectionsByUserId = (req, res) => {
+    const uid = req.params.uid
 }
 
 const userFollows = (req, res) => {
@@ -50,6 +51,7 @@ export default (app) => {
     app.post('/api/users/:uidA/follows/:uidB', createConnection);
     app.delete('/api/users/:uidA/unfollows/:uidB', userUnfollowsUser);
     app.get('/api/connections', findAllConnections);
+    app.get('/api/connections/:uid', findAllConnectionsByUserId);
     app.get('/api/users/:uid/follows', userFollows);
     app.get('/api/users/:uid/followers', followsUser);
 }

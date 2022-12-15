@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
 const usersSchema = mongoose.Schema({
-    isCompany: Boolean,
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
     firstName: String,
@@ -12,12 +11,14 @@ const usersSchema = mongoose.Schema({
     country: String,
     hasProfileImage: Boolean,
     image: String,
-    connectionCount: Number,
-    coins: Number,
+    connectionCount: {type: Number, default: 0},
+    postCount: {type: Number, default: 0},
+    jonCount: {type: Number, default: 0},
     about: String,
     experience: Array,
     education: Array,
-    skills: Array
+    skills: Array,
+    role: {type: String, enum: ['ADMIN', 'USER']}
 }, {collection: 'users'})
 
 export default usersSchema

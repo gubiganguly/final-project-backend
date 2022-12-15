@@ -12,10 +12,21 @@ const findUsers = async (req, res) => {
 
 // Find user by id
 const findUserById = async (req, res) => {
-    const userId = req.params.uid;
+    const uid = req.params.uid;
     const user = await userDao.findUserById(uid)
     if (user) {
         res.json(user)
+        return
+    }
+    res.sendStatus(404);
+}
+
+// Find users by name
+const findUserByName = async (req, res) => {
+    const name = req.params.name;
+    const users = await userDao.findUsersByName(name)
+    if (users) {
+        res.send(users)
         return
     }
     res.sendStatus(404);
@@ -42,12 +53,27 @@ const deleteUser = async (req, res) => {
 
 // Update user
 const updateUser = async (req, res) => {
-    const userId = req.params.uid;
+    const uid = req.params.uid;
     const updates = req.body;
     const user = await userDao.findUserById(uid)
     if (user) {
+        await userDao.updateUser(uid, updates) 
         res.json(user)
-        await userDao.updateUser(updates)
+        return
+    }
+
+    res.sendStatus(200);
+}
+
+// Update current user
+const updateCurrentUser = async (req, res) => {
+    const userId = currentUser._id
+    const updates = req.body;
+    const user = await userDao.findUserById(userId)
+    if (user) {
+        await userDao.updateUser(userId, updates)
+        currentUser = await userDao.findUserById(userId)
+        res.json(user)
         return
     }
 
@@ -66,14 +92,14 @@ const register = async (req, res) => {
         res.sendStatus(503)
         return
     }
-    const newUser = userDao.createUser(user)
+    const newUser = await userDao.createUser(user)
     currentUser = newUser
     res.json(newUser)
 }
 
 const login = async (req, res) => {
     const credentials = req.body
-    const existingUser = userDao.findUserByCredentials(credentials.email, credentials.password)
+    const existingUser = await userDao.findUserByCredentials(credentials.email, credentials.password)
     if (existingUser) {
         currentUser = existingUser
         res.json(existingUser)
@@ -90,8 +116,8 @@ const logout = async (req, res) => {
 }
 
 const profile = async (req, res) => {
-    if (createUser) {
-        res.send(createUser)
+    if (currentUser) {
+        res.send(currentUser)
     }
     else {
         res.sendStatus(503)
@@ -105,12 +131,14 @@ const profile = async (req, res) => {
 export default (app) => {
     app.get('/api/users', findUsers);
     app.get('/api/users/:uid', findUserById);
+    app.get('/api/users/name/:name', findUserByName);
     app.post('/api/users', createUser);
     app.delete('/api/users/:uid', deleteUser);
     app.put('/api/users/:uid', updateUser);
     app.post('/register', register)
-    app.post('login', login)
+    app.post('/login', login)
     app.post('/logout', logout)
     app.post('/profile', profile)
+    app.put('/update', updateCurrentUser)
 }
 

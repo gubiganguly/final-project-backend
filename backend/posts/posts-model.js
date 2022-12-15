@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import postsSchema from './posts-schema.js'
 
-const postsModel = mongoose
+const postsModel = mongoose 
               .model('PostModel', postsSchema);
-export default postsModel;
+export default postsModel; 

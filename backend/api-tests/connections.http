@@ -12,3 +12,5 @@ GET http://localhost:4000/api/users/222/follows
 
 ### Get all followers of user
 GET http://localhost:4000/api/users/222/followers
+
+
