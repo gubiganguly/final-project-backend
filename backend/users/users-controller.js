@@ -1,8 +1,5 @@
-import people from './users.js'
+import axios from 'axios'
 import * as userDao from './users-dao.js'
-
-
-let currentUser = null
 
 // Find all users
 const findUsers = async (req, res) => {
@@ -67,12 +64,12 @@ const updateUser = async (req, res) => {
 
 // Update current user
 const updateCurrentUser = async (req, res) => {
-    const userId = currentUser._id
+    const userId = req.session['currentUser']._id
     const updates = req.body;
     const user = await userDao.findUserById(userId)
     if (user) {
         await userDao.updateUser(userId, updates)
-        currentUser = await userDao.findUserById(userId)
+        req.session['currentUser'] = await userDao.findUserById(userId)
         res.json(user)
         return
     }
@@ -93,7 +90,7 @@ const register = async (req, res) => {
         return
     }
     const newUser = await userDao.createUser(user)
-    currentUser = newUser
+    req.session['currentUser'] = newUser
     res.json(newUser)
 }
 
@@ -101,23 +98,23 @@ const login = async (req, res) => {
     const credentials = req.body
     const existingUser = await userDao.findUserByCredentials(credentials.email, credentials.password)
     if (existingUser) {
-        currentUser = existingUser
+        req.session['currentUser'] = existingUser
         res.json(existingUser)
         return
-    }
+    }  
     else {
         res.sendStatus(503) // unauthorized
     }
 }
 
 const logout = async (req, res) => {
-    currentUser = null
+    req.session.destroy()
     res.sendStatus(200)
 }
 
 const profile = async (req, res) => {
-    if (currentUser) {
-        res.send(currentUser)
+    if (req.session['currentUser']) {
+        res.send(req.session['currentUser'])
     }
     else {
         res.sendStatus(503)
